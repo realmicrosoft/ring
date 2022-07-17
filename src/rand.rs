@@ -196,6 +196,14 @@ use self::darwin::fill as fill_impl;
 #[cfg(any(target_os = "fuchsia"))]
 use self::fuchsia::fill as fill_impl;
 
+#[cfg(all(feature = "no_random"))]
+use self::no_fill as fill_impl;
+
+#[cfg(all(feature = "no_random"))]
+pub fn no_fill(dest: &mut [u8]) -> Result<(), error::Unspecified> {
+    Err(error::Unspecified)
+}
+
 #[cfg(any(target_os = "android", target_os = "linux"))]
 mod sysrand_chunk {
     use crate::{c, error};
